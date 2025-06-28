@@ -45,4 +45,23 @@ List<Map<String, dynamic>> logs = [
 ];
 
 print(userEventValidator(logs));
+
+List<(String, List<int>)> data = [
+  ("Alice", [10, 20, 30]),
+  ("Bob", [5, 15]),
+  ("Charlie", [25, 35, 45]),
+];
+
+print(marksListValidator(data));
+
+FileSystemNode fs = Folder("root", [
+  File("readme.txt", 1024),
+  Folder("src", [
+    File("main.dart", 2048),
+    File("utils.dart", 1024),
+  ]),
+  Symlink("/root/src/main.dart"),
+]);
+
+print(describeNode(fs));
 }

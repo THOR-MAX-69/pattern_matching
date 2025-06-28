@@ -110,3 +110,45 @@ List<String> checkStock(Map<String,int> productList){
   }
   return productsInStock;
 }
+
+// Nested List and Record Matching
+
+List<String> marksListValidator(List<(String, List<int>)> data){
+  List<String> studentNames = [];
+  for(var student in data){
+    if (student case (String name, List<int> markList) when markList.any((marks) => marks > 24)){
+      studentNames.add(name);
+    }
+  }
+  return studentNames;
+}
+
+// Sealed Class and Nested Record Matching
+
+sealed class FileSystemNode {}
+
+class File implements FileSystemNode {
+  final String name;
+  final int size; // in bytes
+  File(this.name, this.size);
+}
+
+class Folder implements FileSystemNode {
+  final String name;
+  final List<FileSystemNode> children;
+  Folder(this.name, this.children);
+}
+
+class Symlink implements FileSystemNode {
+  final String targetPath;
+  Symlink(this.targetPath);
+}
+
+String describeNode(FileSystemNode node) {
+  return switch (node) {
+    File(:var name, :var size) when size > 1024 => "$name is a large file (${size} bytes)",
+    File(:var name, :var size) => "$name is a small file (${size} bytes)",
+    Folder(:var name, :var children) => "$name is a folder with ${children.length} items",
+    Symlink(:var targetPath) => "Symlink to $targetPath",
+  };
+}
